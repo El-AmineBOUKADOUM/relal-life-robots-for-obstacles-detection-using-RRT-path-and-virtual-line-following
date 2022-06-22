@@ -1,8 +1,7 @@
 import random
 import math
 import pygame
-import cv2 as cv
-import numpy as np
+
 
 class RRTMap:
     def __init__(self, start, goal, map_path):
@@ -15,7 +14,6 @@ class RRTMap:
         self.original_map,(self.maph,self.mapw) = self._get_map(path=map_path)
         self.map = pygame.display.set_mode((self.maph,self.mapw))
         self.map.fill((255, 255, 255))
-        
         
         self.nodeRad = 2
         self.nodeThickness = 0
@@ -36,21 +34,18 @@ class RRTMap:
         pygame.draw.circle(self.map, self.Green, self.start, 20, 0)
         pygame.draw.circle(self.map, self.Green, self.goal, 20, 1)
 
-    def _get_map(self,path,dil = 1):
+    def _get_map(self,path):
+        path= r"C:\Users\acer\Desktop\Nouveau dossier (3)\RRT_using_img\simu2.jpg"
         surface = pygame.image.load(path)
         thresh= pygame.mask.from_threshold(surface, (255,255,255), threshold=(95, 95, 95, 255), palette_colors=1)
         surface = pygame.mask.Mask.to_surface(thresh)
-        pygame.draw.circle(surface, (255, 0, 0), [0, 0], 100, 0)
         h=surface.get_size()[0]
-        w=surface.get_size()[1] 
-        print('h,w= ',h,w)
-        if h > 1024.5 or h >576 :
-            h4=h/4
-            w4=w/4
-            print('h4,w4= ',h4,w4)
-            surface = pygame.transform.scale(surface, (h4,w4))        
-            return surface,(h4,w4)
-    
+        w=surface.get_size()[1]
+        h4=h/4
+        w4=w/4
+        surface = pygame.transform.scale(surface, (h4,w4))
+
+        return surface,(h4,w4)
     def drawPath(self, path):
         for node in path:
             pygame.draw.circle(self.map, self.Red, node, 3, 0)
@@ -81,13 +76,13 @@ class RRTGraph:
         # path
         self.goalstate = None
         self.path = []
-    '''
+
     def makeRandomRect(self):
         uppercornerx = int(random.uniform(0, self.mapw - self.obsDim))
         uppercornery = int(random.uniform(0, self.maph - self.obsDim))
 
         return (uppercornerx, uppercornery)
-    '''
+
     def makeobs(self):
         obs = []
         for i in range(0, self.obsNum):
@@ -120,7 +115,7 @@ class RRTGraph:
 
     def number_of_nodes(self):
         return len(self.x)
-    
+
     def distance(self, n1, n2):
         (x1, y1) = (self.x[n1], self.y[n1])
         (x2, y2) = (self.x[n2], self.y[n2])
@@ -145,7 +140,7 @@ class RRTGraph:
     def isFree(self,orig_map):
         n = self.number_of_nodes() - 1
         (x, y) = (self.x[n], self.y[n])
-        if orig_map.get_at((int(x),int(y)))[0]<=10: #why when I lower the number it takes a shortest path.. it was 80
+        if orig_map.get_at((int(x),int(y)))[0]<=80:
             self.remove_node(n)
             return False
         return True
@@ -169,7 +164,7 @@ class RRTGraph:
             self.add_edge(n1, n2)
             return True
 
-    def step(self, nnear, nrand, dmax=35):
+    def step(self, nnear, nrand, dmax=15):
         d = self.distance(nnear, nrand)
         if d > dmax:
             u = dmax / d
@@ -260,45 +255,3 @@ class RRTGraph:
                 print((x, y))
 
         return path
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
