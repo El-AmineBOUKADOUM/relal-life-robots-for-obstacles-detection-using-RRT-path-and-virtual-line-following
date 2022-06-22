@@ -1,12 +1,13 @@
 import pygame
 from RRTbasePy import RRTGraph
 from RRTbasePy import RRTMap
+from sys import exit
 import time
 
 def main():
-    map_path = 'C:\\Users\\amine\\Desktop\\codings\\Final\\img\\simu2.jpg'
+    map_path = 'enter YOUR map path here'
     start=(50,50)
-    goal=(700,600)
+    goal=(800,600)
     iteration=0
     t1=0
 
@@ -15,16 +16,15 @@ def main():
     graph=RRTGraph(start,goal,(map.mapw,map.maph))
 
     map.drawMap()
-
     t1=time.time()
-    
+
     while (not graph.path_to_goal()):
-        print('time',t1)
+  #      print('time',t1)
         time.sleep(0.005)
         elapsed=time.time()-t1
         t1=time.time()
         #raise exception if timeout
-        if elapsed > 10:
+        if elapsed > 20:
             print('timeout re-initiating the calculations')
             raise
 
@@ -45,38 +45,13 @@ def main():
         iteration += 1
     map.drawPath(graph.getPathCoords())
     pygame.display.update()
-    pygame.event.clear()
-    pygame.event.wait(0)
-    
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
 
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
