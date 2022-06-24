@@ -50,10 +50,10 @@ while True:
         
         print ('move forward')
         time.sleep(2)
-    elif angle < 90:
+    elif angle < 180:
         print ('translate left')
         time.sleep(2)
-    elif angle > 90:
+    elif angle > 180:
         print ('translate right')
         time.sleep(2)
     
