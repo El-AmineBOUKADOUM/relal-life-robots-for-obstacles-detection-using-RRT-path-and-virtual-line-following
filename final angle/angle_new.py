@@ -34,8 +34,7 @@ V = p3 - p2
 
 cosine_angle = np.dot(U, V) / (np.linalg.norm(U) * np.linalg.norm(V))
 angle = np.arccos(cosine_angle)
-print (cosine_angle)
-print (V)
+
 
 
 # adjust for hemisphere
