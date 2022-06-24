@@ -3,6 +3,8 @@ import numpy as np
 from numpy import pi
 import pygame
 import sched, time
+import math
+
 s = sched.scheduler(time.time, time.sleep)
 t1=0
 t1=time.time()
@@ -19,36 +21,44 @@ screen.fill(background_colour) #This syntax fills the background colour
 
 p1 = np.array([300,300])
 p2 = np.array([400,400])
-p3 = np.array([400,450])
+p3 = np.array([500,300])
 
 point1= pygame.draw.circle(screen, (255, 0, 0), p1, 7, 0) #R
 point2= pygame.draw.circle(screen, (0, 255, 0), p2, 7, 0) #G
 Point3= pygame.draw.circle(screen, (0, 0, 255), p3, 7, 0) #B
 
 pygame.display.flip()
- 
+
 U = p1 - p2
 V = p3 - p2
- 
+
 cosine_angle = np.dot(U, V) / (np.linalg.norm(U) * np.linalg.norm(V))
-angle = np.arccos(cosine_angle)*360/(2*pi)
- 
-print (angle)
-test= True
-while test:
+angle = np.arccos(cosine_angle)
+print (cosine_angle)
+print (V)
 
-    if angle == 180:
-        print ('move forward ')
-    elif angle < 180:
-        print ('rotate left ')
-    elif angle > 180:
-        print ('rotate right mf')
-    time.sleep(1)
+
+# adjust for hemisphere
+if V[0] < 0: angle=360 - np.degrees(angle)
+if V[0] > 0: angle=np.degrees(angle)
+
+
+
+while True:
+    print (angle)
     
-    break
-
-
-
+    if angle == 180:
+        
+        print ('move forward')
+        time.sleep(2)
+    elif angle < 90:
+        print ('translate left')
+        time.sleep(2)
+    elif angle > 90:
+        print ('translate right')
+        time.sleep(2)
+    
+    
 
 running = True
 while running:
