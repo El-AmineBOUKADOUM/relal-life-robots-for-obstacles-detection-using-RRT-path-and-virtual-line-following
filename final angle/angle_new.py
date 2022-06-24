@@ -21,7 +21,7 @@ screen.fill(background_colour) #This syntax fills the background colour
 
 p1 = np.array([300,300])
 p2 = np.array([400,400])
-p3 = np.array([500,300])
+p3 = np.array([500,500])
 
 point1= pygame.draw.circle(screen, (255, 0, 0), p1, 7, 0) #R
 point2= pygame.draw.circle(screen, (0, 255, 0), p2, 7, 0) #G
